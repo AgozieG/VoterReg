@@ -1,0 +1,124 @@
+
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Farmer Voter Registration — Home</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱‍👤</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="{% static 'appreg/style1.css' %}">
+
+</head>
+<body>
+  <header class="nav">
+    <div class="brand wrap" style="gap:16px;">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:800;color:white">Farmer Register</div>
+        <div style="font-size:12px;color:var(--muted)">Grow the future — vote local</div>
+      </div>
+    </div>
+    <nav class="nav-links wrap">
+      <a href="#about">About</a>
+      <a href="#process">How to Register</a>
+      <a href="#why">Why Vote</a>
+      <a href="{% url 'register' %}" class="cta">Register</a>
+      <a href="{% url 'vote' %}" class="cta" style="background: linear-gradient(135deg, #e08b3a, #b86b2a);">Vote</a>
+      <a href="{% url 'admin_login' %}" style="color:#ff9500;font-weight:700">Admin</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-card reveal">
+        <h1>Register to Vote — Make farmers' voices count</h1>
+        <p class="lead">A simple, secure registration for farmers and rural communities. Follow a quick set of steps to ensure your voice is included in decisions that affect agriculture and land use.</p>
+        <div style="display:flex;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap">
+          <a class="cta" href="{% url 'register' %}">Begin Registration</a>
+          <a class="cta secondary" href="#about">Learn More</a>
+        </div>
+        <div style="margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="font-size:13px;color:var(--muted)"><strong>Accessible:</strong> Online, mobile-friendly, or assisted on-site.</div>
+          <div style="font-size:13px;color:var(--muted)"><strong>Secure:</strong> Data saved to the national roll and managed by election officials.</div>
+        </div>
+      </div>
+
+      <aside class="hero-visual reveal">
+        <!-- use the farmer image placed at static/images/planty.jpg -->
+        <img src="{% static 'appreg/planty.jpg' %}" alt="green field and sky"/>
+      </aside>
+    </section>
+
+    <section id="process">
+      <h2 style="color:#fff;margin-bottom:8px">How registration works</h2>
+      <p style="color:var(--muted);margin-top:0">We kept it simple — three steps for busy farmers.</p>
+      <div class="steps">
+        <div class="step reveal">
+          <h3>1. Prepare your documents</h3>
+          <p>Bring a valid ID and proof of residence or a letter from your cooperative/association if required.</p>
+        </div>
+        <div class="step reveal">
+          <h3>2. Fill the form</h3>
+          <p>Complete the registration form online or with staff assistance. Make sure names and dates are accurate.</p>
+        </div>
+        <div class="step reveal">
+          <h3>3. Verify & receive confirmation</h3>
+          <p>Officials will confirm your details; once approved you'll receive confirmation of registration.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="why">
+      <h2 style="color:#fff">Why your vote matters</h2>
+      <div class="importance">
+        <div class="card reveal">
+          <h3>Support rural livelihoods</h3>
+          <p>Your vote determines policies on land rights, subsidies, rural roads, and market access — things that directly affect harvests and income.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Influence agricultural policy</h3>
+          <p>Voting ensures farmers have a seat at the table when decisions are made about water access, extension services, and crop insurance.</p>
+        </div>
+      </div>
+      <div style="margin-top:18px;color:var(--muted);font-size:14px">
+        <ul>
+          <li>Protects community interests and land rights.</li>
+          <li>Improves access to rural services and infrastructure.</li>
+          <li>Gives farmers a stronger voice in local councils.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section style="margin-top:28px;display:flex;justify-content:center">
+      <a class="cta" href="{% url 'register' %}" style="font-size:18px;padding:14px 28px">Go to Registration</a>
+    </section>
+  </main>
+
+  <div class="footer-wrap">
+    <div class="wave">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C150,120 350,0 600,40 C850,80 1050,20 1200,40 L1200 120 L0 120 Z" fill="#000900ff" opacity="0.95"/>
+        <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200 120 L0 120 Z" fill="#191000ff" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div>
+          <div style="font-weight:800;color:white">Farmer Register</div>
+          <div class="copyright">© {{ year }} Farmer Voter Registration — Built for rural communities</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <a href="#" style="font-weight:700">Privacy</a>
+          <a href="#" style="font-weight:700">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+<script src="{% static 'appreg/script1.js' %}"></script>
+</body>
+</html>

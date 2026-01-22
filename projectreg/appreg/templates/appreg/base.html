@@ -1,0 +1,25 @@
+<!-- templates/base.html -->
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"> ...
+<!-- (Full CSS + header/footer markup identical to the homepage design) -->
+</head>
+<body>
+<!-- Header (same animated nav) -->
+<header> ... </header>
+
+
+<main class="wrap">
+{% block content %}{% endblock %}
+</main>
+
+
+<!-- Footer (wave animation) -->
+<footer> ... </footer>
+
+
+<script>/* reveal-on-scroll + small helpers */</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+
+  {% load static %}
+    <link rel="stylesheet" href="{% static 'appreg/style4.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'appreg/style1.css' %}">
+  <header class="nav">
+    <div class="brand wrap" style="gap:16px;">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:800;color:white">Farmer Register</div>
+        <div style="font-size:12px;color:var(--muted)">Grow the future — vote local</div>
+      </div>
+    </div>
+    <nav class="nav-links wrap">
+      <a href="#about">About</a>
+      <a href="#process">How to Register</a>
+      <a href="#why">Why Vote</a>
+      <a href="{% url 'register' %}" class="cta">Register</a>
+    </nav>
+  </header>
+
+<div class="register-container">
+    <div class="register-card">
+        <h1>Voter Registration</h1>
+        <p class="register-subtitle">Fill in your details to register</p>
+        
+        {% if form.non_field_errors %}
+            <div class="error-message">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        
+        <form method="POST" class="register-form">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.surname.id_for_label }}">Surname</label>
+                    {{ form.surname }}
+                    {% if form.surname.errors %}
+                        <span class="field-error">{{ form.surname.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.firstname.id_for_label }}">First Name</label>
+                    {{ form.firstname }}
+                    {% if form.firstname.errors %}
+                        <span class="field-error">{{ form.firstname.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.dob.id_for_label }}">Date of Birth</label>
+                    {{ form.dob }}
+                    {% if form.dob.errors %}
+                        <span class="field-error">{{ form.dob.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <span class="field-error">{{ form.email.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.gender.id_for_label }}">Gender</label>
+                    {{ form.gender }}
+                    {% if form.gender.errors %}
+                        <span class="field-error">{{ form.gender.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.phone.id_for_label }}">Phone</label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                        <span class="field-error">{{ form.phone.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.marital_status.id_for_label }}">Marital Status</label>
+                    {{ form.marital_status }}
+                    {% if form.marital_status.errors %}
+                        <span class="field-error">{{ form.marital_status.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.rc_number.id_for_label }}">RC Number</label>
+                    {{ form.rc_number }}
+                    {% if form.rc_number.errors %}
+                        <span class="field-error">{{ form.rc_number.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="{{ form.mine_name.id_for_label }}">Name of Farm</label>
+                {{ form.mine_name }}
+                {% if form.mine_name.errors %}
+                    <span class="field-error">{{ form.mine_name.errors }}</span>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+        
+        <p class="register-footer">Already registered? <a href="{% url 'home' %}">Go back home</a></p>
+    </div>
+
+</div>
+  <div class="footer-wrap">
+    <div class="wave">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C150,120 350,0 600,40 C850,80 1050,20 1200,40 L1200 120 L0 120 Z" fill="#001300ff" opacity="0.95"/>
+        <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200 120 L0 120 Z" fill="#191000ff" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div>
+          <div style="font-weight:800;color:white">Farmer Register</div>
+          <div class="copyright">© {{ year }} Farmer Voter Registration — Built for rural communities</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <a href="#" style="font-weight:700">Privacy</a>
+          <a href="#" style="font-weight:700">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </div>

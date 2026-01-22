@@ -1,0 +1,317 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voting Results - Farmer Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="{% static 'appreg/style1.css' %}">
+  <style>
+    .results-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .results-card {
+      background: linear-gradient(180deg,rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .results-card h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .results-card .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    .success-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .winner-section {
+      background: linear-gradient(135deg, #e08b3a, #b86b2a);
+      padding: 30px;
+      border-radius: 12px;
+      margin: 30px 0;
+      color: white;
+    }
+    
+    .winner-badge {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    
+    .winner-name {
+      font-size: 28px;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+    
+    .winner-votes {
+      font-size: 18px;
+      opacity: 0.95;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .stat-card {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #e08b3a;
+    }
+    
+    .stat-card .label {
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    
+    .stat-card .value {
+      color: #e08b3a;
+      font-size: 24px;
+      font-weight: 800;
+    }
+    
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+    }
+    
+    .results-table th {
+      background: linear-gradient(135deg, #e08b3a, #b86b2a);
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    .results-table td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .results-table tr:hover {
+      background: #f9f9f9;
+    }
+    
+    .farmer-rank {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .farmer-rank.rank-1 {
+      color: #FFD700;
+    }
+    
+    .farmer-rank.rank-2 {
+      color: #C0C0C0;
+    }
+    
+    .farmer-rank.rank-3 {
+      color: #CD7F32;
+    }
+    
+    .votes-bar {
+      background: #e0e0e0;
+      border-radius: 10px;
+      height: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .votes-bar-fill {
+      background: linear-gradient(90deg, #e08b3a, #b86b2a);
+      height: 100%;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #e08b3a, #b86b2a);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #b86b2a, #8b5320);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(224, 139, 58, 0.4);
+    }
+    
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand wrap" style="gap:16px;">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:800;color:white">Farmer Register</div>
+        <div style="font-size:12px;color:var(--muted)">Grow the future — vote local</div>
+      </div>
+    </div>
+    <nav class="nav-links wrap">
+      <a href="{% url 'home' %}" class="cta">Home</a>
+      <a href="{% url 'register' %}" class="cta">Register</a>
+      <a href="{% url 'vote' %}" class="cta" style="background: linear-gradient(135deg, #e08b3a, #b86b2a);">Vote</a>
+      <a href="{% url 'admin_login' %}" style="color:#ff9500;font-weight:700">Admin</a>
+    </nav>
+  </header>
+
+  <div class="results-container">
+    <div class="results-card">
+      <div class="success-icon">🎉</div>
+      <h1>Thank You for Voting!</h1>
+      <p class="subtitle">Your vote has been recorded successfully.</p>
+      
+      {% if winner %}
+      <div class="winner-section">
+        <div class="winner-badge">🏆</div>
+        <div style="font-size: 14px; opacity: 0.9;">Current Leader</div>
+        <div class="winner-name">{{ winner.name }}</div>
+        <div class="winner-votes">{{ winner.votes_count }} vote{% if winner.votes_count != 1 %}s{% endif %}</div>
+      </div>
+      {% endif %}
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Total Votes Cast</div>
+          <div class="value">{{ total_votes }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Farmers Running</div>
+          <div class="value">{{ farmers.count }}</div>
+        </div>
+      </div>
+      
+      {% if farmers %}
+      <h3 style="color: #333; margin-top: 40px; margin-bottom: 20px;">Current Vote Count</h3>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Farmer Name</th>
+            <th>Votes</th>
+            <th>Vote Distribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for farmer in farmers %}
+            {% if farmer.votes_count > 0 or forloop.counter <= 4 %}
+            <tr>
+              <td>
+                <span class="farmer-rank rank-{{ forloop.counter }}">
+                  {% if forloop.counter == 1 %}
+                    🥇 1st
+                  {% elif forloop.counter == 2 %}
+                    🥈 2nd
+                  {% elif forloop.counter == 3 %}
+                    🥉 3rd
+                  {% else %}
+                    #{{ forloop.counter }}
+                  {% endif %}
+                </span>
+              </td>
+              <td style="font-weight: 600;">{{ farmer.name }}</td>
+              <td style="font-weight: 600; color: #e08b3a;">{{ farmer.votes_count }}</td>
+              <td>
+                <div class="votes-bar">
+                  {% if total_votes > 0 %}
+                    {% widthratio farmer.votes_count total_votes 100 as percentage %}
+                    <div class="votes-bar-fill" style="width: {{ percentage }}%;">
+                      {% if percentage > 10 %}{{ percentage }}%{% endif %}
+                    </div>
+                  {% else %}
+                    <div class="votes-bar-fill" style="width: 0%;">0%</div>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+      
+      <div class="button-group">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+        <a href="{% url 'vote' %}" class="btn btn-primary">Vote Again</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-wrap">
+    <div class="wave">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C150,120 350,0 600,40 C850,80 1050,20 1200,40 L1200 120 L0 120 Z" fill="#000900ff" opacity="0.95"/>
+        <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200 120 L0 120 Z" fill="#191000ff" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div>
+          <div style="font-weight:800;color:white">Farmer Register</div>
+          <div class="copyright">© {{ year }} Farmer Voter Registration — Built for rural communities</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <a href="#" style="font-weight:700">Privacy</a>
+          <a href="#" style="font-weight:700">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

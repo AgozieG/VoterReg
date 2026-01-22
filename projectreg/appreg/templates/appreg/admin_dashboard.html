@@ -1,0 +1,280 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard — Farmer Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="{% static 'appreg/style1.css' %}">
+  <style>
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .dashboard-header h1 {
+      color: white;
+      font-size: 32px;
+    }
+    .logout-btn {
+      padding: 10px 20px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .logout-btn:hover {
+      background: #ff5252;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: rgba(255, 149, 0, 0.1);
+      border: 1px solid rgba(255, 149, 0, 0.3);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-card h3 {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .stat-card .number {
+      color: #ff9500;
+      font-size: 42px;
+      font-weight: 800;
+    }
+    .table-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+    .table-header {
+      background: rgba(255, 149, 0, 0.15);
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .table-header h2 {
+      color: white;
+      margin: 0;
+      font-size: 20px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+    }
+    .table th {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+      color: #ff9500;
+      font-size: 14px;
+    }
+    .table td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+    }
+    .table tbody tr:hover {
+      background: rgba(255, 149, 0, 0.05);
+    }
+    .delete-btn {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      transition: background 0.3s;
+    }
+    .delete-btn:hover {
+      background: #ff5252;
+    }
+    .no-data {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .search-box {
+      margin-bottom: 20px;
+    }
+    .search-box input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 14px;
+    }
+    .search-box input::placeholder {
+      color: var(--muted);
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: #ff9500;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .dashboard-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand wrap" style="gap:16px;">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:800;color:white">Farmer Register</div>
+        <div style="font-size:12px;color:var(--muted)">Admin Dashboard</div>
+      </div>
+    </div>
+    <nav class="nav-links wrap">
+      <span style="color:var(--muted)">Welcome, Admin</span>
+      <a href="{% url 'admin_logout' %}" class="logout-btn">Logout</a>
+    </nav>
+  </header>
+
+  <main class="dashboard-content">
+    <div class="dashboard-header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p style="color: var(--muted); margin: 8px 0 0 0;">Manage registered voters</p>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Total Registrations</h3>
+        <div class="number">{{ voters_count }}</div>
+      </div>
+      <div class="stat-card">
+        <h3>Male Voters</h3>
+        <div class="number">{{ male_count }}</div>
+      </div>
+      <div class="stat-card">
+        <h3>Female Voters</h3>
+        <div class="number">{{ female_count }}</div>
+      </div>
+    </div>
+
+    <!-- Voters Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <h2>Registered Voters</h2>
+        <div class="search-box" style="margin-top: 15px;">
+          <input type="text" id="searchInput" placeholder="Search by name, email, or RC number..." onkeyup="filterTable()">
+        </div>
+      </div>
+
+      {% if voters %}
+        <table class="table" id="votersTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Gender</th>
+              <th>RC Number</th>
+              <th>Farm/Mine Name</th>
+              <th>Date of Birth</th>
+              <th>Marital Status</th>
+              <th>Registered On</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for voter in voters %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ voter.firstname }} {{ voter.surname }}</td>
+                <td>{{ voter.email }}</td>
+                <td>{{ voter.phone }}</td>
+                <td>{{ voter.get_gender_display }}</td>
+                <td>{{ voter.rc_number }}</td>
+                <td>{{ voter.mine_name }}</td>
+                <td>{{ voter.dob|date:"d/m/Y" }}</td>
+                <td>{{ voter.get_marital_status_display }}</td>
+                <td>{{ voter.created_at|date:"d/m/Y H:i" }}</td>
+                <td>
+                  <form method="POST" action="{% url 'delete_voter' voter.id %}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this voter?');">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="no-data">
+          <p>No voters registered yet.</p>
+        </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <div class="footer-wrap" style="margin-top: 60px;">
+    <div class="wave">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C150,120 350,0 600,40 C850,80 1050,20 1200,40 L1200 120 L0 120 Z" fill="#000900ff" opacity="0.95"/>
+        <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200 120 L0 120 Z" fill="#191000ff" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div>
+          <div style="font-weight:800;color:white">Farmer Register</div>
+          <div class="copyright">© 2025 Farmer Voter Registration — Built for rural communities</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function filterTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("votersTable");
+      const rows = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+      }
+    }
+  </script>
+
+  <script src="{% static 'appreg/script1.js' %}"></script>
+</body>
+</html>
